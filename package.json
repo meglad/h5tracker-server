@@ -1,0 +1,18 @@
+{
+  "name": "h5tracker-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app",
+    "debug": "gulp debug"
+  },
+  "dependencies": {
+    "express": "~4.13.1",
+    "hbs": "^4.0.0",
+    "mongoose": "^4.4.16"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.0.7"
+  }
+}
