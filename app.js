@@ -1,8 +1,11 @@
 var logTime = require('./lib/utils').logTime;
+var config = require('./lib/config');
 
 var express = require('express');
+var mongoose = require('mongoose');
 var hbs = require('hbs');
 var path = require('path');
+
 var routes = require('./routes/routes');
 
 var app = express();
@@ -28,6 +31,8 @@ app.use(function(err, req, res, next) {
     error: (app.get('env') === 'development' ? err : {})
   });
 });
+
+mongoose.connect(config.database.connection);
 
 /*<jdists encoding="linenum">*/
 var port = parseInt(process.argv[2]) || 3000;

@@ -12,7 +12,9 @@
     "mongoose": "^4.4.16"
   },
   "devDependencies": {
+    "browser-sync": "^2.12.7",
     "gulp": "^3.9.1",
+    "gulp-less": "^3.1.0",
     "gulp-nodemon": "^2.0.7"
   }
 }
