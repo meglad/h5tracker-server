@@ -9,12 +9,16 @@
   "dependencies": {
     "express": "~4.13.1",
     "hbs": "^4.0.0",
-    "mongoose": "^4.4.16"
+    "mongoose": "^4.4.16",
+    "redis": "^2.6.0-2"
   },
   "devDependencies": {
     "browser-sync": "^2.12.7",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-connect": "^4.0.0",
     "gulp-less": "^3.1.0",
-    "gulp-nodemon": "^2.0.7"
+    "gulp-nodemon": "^2.0.7",
+    "gulp-open": "^2.0.0"
   }
 }

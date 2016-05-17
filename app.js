@@ -6,8 +6,6 @@ var mongoose = require('mongoose');
 var hbs = require('hbs');
 var path = require('path');
 
-var routes = require('./routes/routes');
-
 var app = express();
 
 // 视图
@@ -16,7 +14,9 @@ app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 // 路由
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routes);
+
+app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/api'));
 // 404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -32,7 +32,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-mongoose.connect(config.database.connection);
+mongoose.connect(config.mongodb.connection);
 
 /*<jdists encoding="linenum">*/
 var port = parseInt(process.argv[2]) || 3000;

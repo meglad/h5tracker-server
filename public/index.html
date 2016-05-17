@@ -12,25 +12,20 @@
 <body>
   <div id="app">
     <div class="main">
-      <div class="chart-header">
-        <div v-for="(key, item) in btns" class="{{key}}">
-          <span v-for="btn in item.title" v-bind:class="{'active': $index === item.active }" v-on:click="item.active = $index">{{btn}}</span>
+      <h2>实时统计查询</h2>
+      <!-- <div class="chart-header">
+        <div class="timeBtns">
+          <span v-for="item in timeBtns" v-bind:class="{'active': $index === timeBtnsIndex }" v-on:click="timeBtnsIndex = $index">{{item.title}}</span>
         </div>
-      </div>
-      <div class="chart">
-      </div>
+        <div class="typeBtns">
+          <span v-for="item in typeBtns" v-bind:class="{'active': $index === typeBtnsIndex }" v-on:click="typeBtnsIndex = $index">{{item.title}}</span>
+        </div>
+      </div> -->
+      <div class="chart"></div>
     </div>
-    {{ message }}
-    <ul>
-      <li v-for="item in list">
-        {{toString(item)}}
-      </li>
-    </ul>
-    {{ count }}
   </div>
   <script src="components/vue/dist/vue.min.js"></script>
   <script src="components/vue-resource/dist/vue-resource.js"></script>
-  <!-- <script src="components/vue-router/dist/vue-router.js"></script> -->
   <script src="components/echarts/dist/echarts.js"></script>
   <script src="vue/index.js"></script>
 </body>
