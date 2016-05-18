@@ -1,7 +1,7 @@
-// 基于准备好的dom，初始化echarts实例
 var $chart = document.querySelector('.chart');
 var myChart = echarts.init($chart);
 
+var records = {}; // key : []
 var timer;
 var vm = new Vue({
   ready: function() {
@@ -23,6 +23,7 @@ var vm = new Vue({
   el: '#app',
   data: {
     refreshTime: 5, //页面自动刷新时间 单位s
+    isPop: true, //是否显示弹层
     // timeBtns: [],
     // typeBtns: [
     //   { title: '浏览量(PV)', value: 'pv' },
@@ -32,9 +33,6 @@ var vm = new Vue({
     // typeBtnsIndex: 0
   },
   methods: {
-    toString: function(data) {
-      return JSON.stringify(data);
-    },
     http: function(isOne) {
       if (isOne) {
         myChart.showLoading();
@@ -46,10 +44,11 @@ var vm = new Vue({
         '1', // 查询天数
         '600' // 间隔时间
       ].join('/');
+      var self = this;
       this.$http(getUrl).then(function(response) {
         var reply = response.data;
         // 时间戳转日期
-        reply.xData.map(function(item, index) {
+        reply.xData.forEach(function(item, index) {
           var date = new Date(item);
           reply.xData[index] = (date.getMonth() + 1) + '月' + date.getDate() + '日';
           reply.xData[index] += [
@@ -74,7 +73,7 @@ var vm = new Vue({
         myChart.setOption(options);
         myChart.hideLoading();
       }, function(response) {
-        alert('数据获取失败');
+        self.isPop = true;
         myChart.hideLoading();
       });
     }

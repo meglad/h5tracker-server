@@ -23,6 +23,13 @@
       </div> -->
       <div class="chart"></div>
     </div>
+    <div class="pop" v-show="isPop">
+      <div class="shade"></div>
+      <div class="content">
+        <div>数据获取失败</div>
+        <span v-click="isPop = !isPop">确定</span>
+      </div>
+    </div>
   </div>
   <script src="components/vue/dist/vue.min.js"></script>
   <script src="components/vue-resource/dist/vue-resource.js"></script>
