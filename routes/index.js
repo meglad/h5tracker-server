@@ -3,7 +3,7 @@ var fs = require('fs');
 var url = require('url');
 
 var gif = fs.readFileSync('./public/img/h5tracker.gif');
-var config = require('../lib/config');
+var config = require('../config/config');
 var LogModel = require('../models/models').LogModel;
 var CountRedis = require('../lib/CountRedis');
 
@@ -11,9 +11,10 @@ var router = express.Router();
 
 router.get('/*.gif', function(req, res, next) {
   var query = req.query;
+  var isPageview = (query.ht == 'pageview');
   new Promise(function(resolve, reject) {
-    if (typeof query.user === 'undefined') {
-      reject('params user is undefined');
+    if (typeof query.uid === 'undefined') {
+      reject('params uid is undefined');
     } else {
       resolve();
     }
@@ -27,13 +28,14 @@ router.get('/*.gif', function(req, res, next) {
     });
   }).then(function() {
     return CountRedis.setCount({
-      user: query.user,
-      type: query.type
+      uid: query.uid,
+      pageview: isPageview
     });
   }).then(function(reply) {
     res.set('Cache-Control', 'nocache');
     res.end(gif);
   }).catch(function() {
+    console.error('[%s]^linenum "/*.gif": %j', logTime(), err);
     res.status(404);
     res.set('Cache-Control', 'nocache');
     res.end();

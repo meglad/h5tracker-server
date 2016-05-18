@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('../lib/config');
+var config = require('../config/config');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

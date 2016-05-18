@@ -1,5 +1,5 @@
 var logTime = require('./lib/utils').logTime;
-var config = require('./lib/config');
+var config = require('./config/config');
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -32,7 +32,15 @@ app.use(function(err, req, res, next) {
   });
 });
 
-mongoose.connect(config.mongodb.connection);
+mongoose.connect(config.mongodb.connection, {
+  server: {
+    auto_reconnect: true
+  }
+}, function(err) {
+  if (err) {
+    console.error('[%s]^linenum mongodb not open: %j', logTime(), err);
+  }
+});
 
 /*<jdists encoding="linenum">*/
 var port = parseInt(process.argv[2]) || 3000;

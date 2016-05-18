@@ -2,12 +2,27 @@
 var $chart = document.querySelector('.chart');
 var myChart = echarts.init($chart);
 
+var timer;
 var vm = new Vue({
   ready: function() {
-    this.http();
+    var _this = this;
+    _this.http(true);
+    refresh();
+    // 自动刷新页面
+    function refresh() {
+      if (timer) {
+        return;
+      }
+      timer = setTimeout(function() {
+        timer = null;
+        _this.http();
+        refresh();
+      }, _this.refreshTime * 1000);
+    }
   },
   el: '#app',
   data: {
+    refreshTime: 5, //页面自动刷新时间 单位s
     // timeBtns: [],
     // typeBtns: [
     //   { title: '浏览量(PV)', value: 'pv' },
@@ -20,8 +35,10 @@ var vm = new Vue({
     toString: function(data) {
       return JSON.stringify(data);
     },
-    http: function() {
-      myChart.showLoading();
+    http: function(isOne) {
+      if (isOne) {
+        myChart.showLoading();
+      }
       // 请求数据
       var getUrl = [
         '/api',
@@ -34,13 +51,26 @@ var vm = new Vue({
         // 时间戳转日期
         reply.xData.map(function(item, index) {
           var date = new Date(item);
-          reply.xData[index] = date.getMonth() + 1 + '月' + date.getDate() + '日' + [date.getHours(), date.getMinutes()].join(':');
+          reply.xData[index] = (date.getMonth() + 1) + '月' + date.getDate() + '日';
+          reply.xData[index] += [
+            String(100 + date.getHours()).slice(1),
+            String(100 + date.getMinutes()).slice(1)
+          ].join(':');
         });
         // 更新显示
-        var options = _getOpts(reply.xData, null, {
-          uv: reply.uv,
-          pv: reply.pv
-        });
+        if (isOne) {
+          var options = _getOpts(reply.xData, null, {
+            uv: reply.uv,
+            pv: reply.pv
+          });
+        } else {
+          var options = {
+            xAxis: {
+              data: reply.xData
+            },
+            series: [{ data: reply.uv }, { data: reply.pv }]
+          };
+        }
         myChart.setOption(options);
         myChart.hideLoading();
       }, function(response) {
@@ -51,13 +81,13 @@ var vm = new Vue({
   }
 });
 
-vm.$watch('timeBtnsIndex', function(newVal, oldVal) {
-  this.http();
-});
+// vm.$watch('timeBtnsIndex', function(newVal, oldVal) {
+//   this.http();
+// });
 
-vm.$watch('typeBtnsIndex', function(newVal, oldVal) {
-  this.http();
-});
+// vm.$watch('typeBtnsIndex', function(newVal, oldVal) {
+//   this.http();
+// });
 
 function _getOpts(x, y, data) {
   return {

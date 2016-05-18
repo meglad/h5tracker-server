@@ -6,7 +6,7 @@ var gif = fs.readFileSync('public/img/h5tracker.gif');
 var logTime = require('../lib/utils').logTime;
 var LogModel = require('../models/models.js').LogModel;
 var CountRedis = require('../lib/CountRedis');
-var config = require('../lib/config');
+var config = require('../config/config');
 var router = express.Router();
 
 router.get('/:type/:days/:interval', function(req, res, next) {
@@ -21,7 +21,7 @@ router.get('/:type/:days/:interval', function(req, res, next) {
   }).then(function(reply) {
     res.json(reply);
   }).catch(function(err) {
-    console.error('[%s]^linenum: %j', logTime(), err);
+    console.error('[%s]^linenum "/:type/:days/:interval" : %j', logTime(), err);
     next();
   });
 });

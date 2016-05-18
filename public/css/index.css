@@ -40,6 +40,14 @@ a:hover {
   font-size: 30px;
   line-height: 50px;
 }
+.main h2 label {
+  color: #999;
+  display: block;
+  font-size: 12px;
+}
+.main h2 label input {
+  width: 32px;
+}
 .main .chart-header {
   display: none;
   font-size: 14px;
